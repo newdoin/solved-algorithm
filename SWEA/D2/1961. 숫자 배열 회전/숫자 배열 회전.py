@@ -1,40 +1,48 @@
+"""
+(0, 0), (0, 1), (0, 2)
+(1, 0), (1, 1), (1, 2)
+(2, 0), (2, 1), (2, 2)
+
+90도 회전!
+(2, 0), (1, 0), (0, 0)
+(2, 1), (1, 1), (0, 1)
+(2, 2), (1, 2), (0, 2)
+
+90도 회전한거에 90도 회전! => 180도!!
+(2, 2), (2, 1), (2, 0)
+(1, 2), (1, 1), (1, 0)
+(0, 2), (0, 1), (0, 0)
+
+90도 회전한거에 90도를 또 회전한거에 90도 회전!! => 270도!!!
+(0, 2), (1, 2), (2, 2)
+(0, 1), (1, 1), (2, 1)
+(0, 0), (1, 0), (2, 0)
+"""
 T = int(input())
-for tc in range(1, T+1):
-    # 행렬의 N 값 입력
+
+for i in range(T):
     N = int(input())
 
-    # NxN 행렬 입력
-    arr = [list(map(int, input().split())) for _ in range(N)]
+    map_list = [list(input().split()) for _ in range(N)]
+    rotate_90 = [[0] * N for _ in range(N)]
+    rotate_180 = [[0] * N for _ in range(N)]
+    rotate_270 = [[0] * N for _ in range(N)]
 
-    # 90도, 180,도 270도 회전한 행렬 초기화
-    arr_90 = [[0 for _ in range(N)] for _ in range(N)]
-    arr_180 = [[0 for _ in range(N)] for _ in range(N)]
-    arr_270 = [[0 for _ in range(N)] for _ in range(N)]
+    for row in range(N):
+        for col in range(N):
+            rotate_90[row][col] = map_list[N - col - 1][row]
 
-    # arr 행렬 90도 회전
-    for i in range(N):
-        for j in range(N):
-            arr_90[i][j] = arr[N-1-j][i]
+    for row in range(N):
+        for col in range(N):
+            rotate_180[row][col] = rotate_90[N - col - 1][row]
 
-    # arr_90 행렬을 90도 회전하면 arr_180 행렬
-    for i in range(N):
-        for j in range(N):
-            arr_180[i][j] = arr_90[N-1-j][i]
+    for row in range(N):
+        for col in range(N):
+            rotate_270[row][col] = rotate_180[N - col - 1][row]
 
-    # arr_180 행렬을 90도 회전하면 arr_270 행렬
-    for i in range(N):
-        for j in range(N):
-            arr_270[i][j] = arr_180[N-1-j][i]
-
-    # 결과 출력
-    print('#{}'.format(tc))
-    for i in range(N):
-        for a in range(N):
-            print(arr_90[i][a], end='')
-        print(end=' ')
-        for b in range(N):
-            print(arr_180[i][b], end='')
-        print(end=' ')
-        for c in range(N):
-            print(arr_270[i][c], end='')
+    print(f"#{i+1}")
+    for idx in range(N):
+        print(''.join(rotate_90[idx]), end=' ')
+        print(''.join(rotate_180[idx]), end=' ')
+        print(''.join(rotate_270[idx]), end=' ')
         print()
